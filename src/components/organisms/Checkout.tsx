@@ -15,6 +15,8 @@ import { Button } from "../ui/button";
 import { cpf, cnpj } from "cpf-cnpj-validator";
 import { formatDocumentNumber } from "@/utils/DocNumber";
 import { formatPhoneNumber } from "@/utils/Phone";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import PaymentMethod from "@/components/organisms/PaymentMethod";
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -143,9 +145,56 @@ export default function Checkout() {
             />
           </div>
 
-          <Button type="submit" className="py-6">
+          <Button
+            type="submit"
+            className="py-6 bg-[#28b463] text-white font-bold"
+          >
             Pagar agora
           </Button>
+
+          <Tabs defaultValue="card" className="w-full">
+            <TabsList className="w-full grid grid-cols-3 h-12">
+              <TabsTrigger value="card">
+                <PaymentMethod text="Cartão" iconPath="/icons/card.svg" />
+              </TabsTrigger>
+              <TabsTrigger value="boleto">
+                <PaymentMethod text="Boleto" iconPath="/icons/boleto.svg" />
+              </TabsTrigger>
+              <TabsTrigger value="pix">
+                <PaymentMethod text="Pix" iconPath="/icons/pix.svg" />
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="card">Cartão</TabsContent>
+            <TabsContent value="boleto">
+              <div className="bg-[#ededed] p-8 rounded ">
+                <h3 className="text-[16px] font-bold">
+                  Informações sobre o pagamento via boleto:
+                </h3>
+                <ul className="font-normal list-disc pl-5">
+                  <li>Valor à vista: R$ 499,90.</li>
+                  <li>Não podemos parcelar Boleto.</li>
+                  <li>Pode levar até 2 dias úteis para compensar.</li>
+                </ul>
+              </div>
+            </TabsContent>
+            <TabsContent value="pix">
+              <div className="bg-[#ededed] p-8 rounded">
+                <h3 className="text-[16px] font-bold">
+                  Informações sobre o pagamento via pix:
+                </h3>
+                <ul className="font-normal list-disc pl-5">
+                  <li>Liberação imediata!</li>
+                  <li>
+                    É simples, só usar o aplicativo de seu banco para pagar PIX.
+                  </li>
+                  <li>
+                    Super seguro. O pagamento PIX foi desenvolvido pelo Banco
+                    Central para facilitar pagamentos.
+                  </li>
+                </ul>
+              </div>
+            </TabsContent>
+          </Tabs>
         </form>
       </Form>
     </div>

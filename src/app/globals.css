@@ -8,12 +8,6 @@ body {
   color: #000000;
 }
 
-button {
-  background: rgb(40, 180, 99);
-  color: #fff;
-  font-weight: bold;
-}
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
