@@ -34,9 +34,9 @@ export const formSchema = z.object({
   confirmEmail: z.string().email({ message: "Email inválido" }),
   documentNumber: z
     .string()
-    .min(11, { message: "Número de documento inválido" })
-    .max(14, {
-      message: "Número de documento inválido",
+    .transform((val) => val.replace(/\D/g, ""))
+    .refine((val) => val.length >= 11 && val.length <= 14, {
+      message: "Número de documento deve ter entre 11 e 14 dígitos",
     })
     .refine((val) => cpf.isValid(val) || cnpj.isValid(val), {
       message: "Número de documento inválido",
@@ -44,19 +44,21 @@ export const formSchema = z.object({
   phone: z.string().regex(/^\d{11}$/, {
     message: "O telefone deve conter exatamente 11 dígitos numéricos",
   }),
-  creditCardNumber: z
-    .string()
-    .min(1, { message: "Número inválido" })
-    .regex(/^4242 4242 4242 4242$/, {
-      message: "Número do cartão inválido",
-    }),
-  cardMonth: z.string().min(1, { message: "Mês é obrigatório" }),
-  cardYear: z.string().min(1, { message: "Ano é obrigatório" }),
-  cardSafeCode: z
-    .string()
-    .min(3, { message: "Código de segurança é obrigatório" })
-    .max(4, { message: "Código de segurança inválido" }),
-  installments: z.string().min(1, { message: "Parcelas obrigatórias" }),
+  cardData: z.object({
+    creditCardNumber: z
+      .string()
+      .min(1, { message: "Número inválido" })
+      .regex(/^4242 4242 4242 4242$/, {
+        message: "Número do cartão inválido",
+      }),
+    cardMonth: z.string().min(1, { message: "Mês é obrigatório" }),
+    cardYear: z.string().min(1, { message: "Ano é obrigatório" }),
+    cardSafeCode: z
+      .string()
+      .min(3, { message: "Código de segurança é obrigatório" })
+      .max(4, { message: "Código de segurança inválido" }),
+    installments: z.string().min(1, { message: "Parcelas obrigatórias" }),
+  }),
 });
 
 export default function Checkout() {
@@ -68,11 +70,31 @@ export default function Checkout() {
       confirmEmail: "",
       documentNumber: "",
       phone: "",
+      cardData: {
+        creditCardNumber: "",
+        cardMonth: "",
+        cardYear: "",
+        cardSafeCode: "",
+        installments: "",
+      },
     },
   });
 
-  const onSubmit = () => {
-    console.log("submit");
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log("Dados do formulário:", {
+      name: values.name,
+      email: values.email,
+      confirmEmail: values.confirmEmail,
+      documentNumber: values.documentNumber,
+      phone: values.phone,
+      cardData: {
+        creditCardNumber: values.cardData.creditCardNumber,
+        cardMonth: values.cardData.cardMonth,
+        cardYear: values.cardData.cardYear,
+        cardSafeCode: values.cardData.cardSafeCode,
+        installments: values.cardData.installments,
+      },
+    });
   };
 
   return (
@@ -135,7 +157,7 @@ export default function Checkout() {
                     <Input
                       placeholder="CPF/CNPJ"
                       className="py-5"
-                      maxLength={14}
+                      maxLength={18}
                       {...field}
                       onChange={(e) =>
                         field.onChange(formatDocumentNumber(e.target.value))
@@ -187,7 +209,7 @@ export default function Checkout() {
               <div className="flex flex-col gap-5">
                 <FormField
                   control={form.control}
-                  name="creditCardNumber"
+                  name="cardData.creditCardNumber"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -211,7 +233,7 @@ export default function Checkout() {
                 <div className="flex flex-col md:flex-row gap-3 w-full">
                   <FormField
                     control={form.control}
-                    name="cardMonth"
+                    name="cardData.cardMonth"
                     render={({ field }) => (
                       <FormItem className="w-1/2 md:w-1/4">
                         <Select
@@ -238,7 +260,7 @@ export default function Checkout() {
 
                   <FormField
                     control={form.control}
-                    name="cardYear"
+                    name="cardData.cardYear"
                     render={({ field }) => (
                       <FormItem className="w-1/2 md:w-1/4">
                         <Select
@@ -265,7 +287,7 @@ export default function Checkout() {
 
                   <FormField
                     control={form.control}
-                    name="cardSafeCode"
+                    name="cardData.cardSafeCode"
                     render={({ field }) => (
                       <FormItem className="w-full md:w-1/2">
                         <FormControl>
@@ -283,7 +305,7 @@ export default function Checkout() {
                 </div>
                 <FormField
                   control={form.control}
-                  name="installments"
+                  name="cardData.installments"
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <Select
