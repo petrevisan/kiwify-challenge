@@ -27,6 +27,7 @@ import PaymentMethod from "@/components/organisms/PaymentMethod";
 import { monthValues, yearValues, installments } from "@/utils/CardValues";
 import { formatCreditCard } from "@/utils/CreditCardNumber";
 import CheckoutFooter from "@/components/organisms/CheckoutFooter";
+import { useRouter } from "next/navigation";
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -41,9 +42,12 @@ export const formSchema = z.object({
     .refine((val) => cpf.isValid(val) || cnpj.isValid(val), {
       message: "Número de documento inválido",
     }),
-  phone: z.string().regex(/^\d{11}$/, {
-    message: "O telefone deve conter exatamente 11 dígitos numéricos",
-  }),
+  phone: z
+    .string()
+    .transform((val) => val.replace(/\D/g, ""))
+    .refine((val) => val.length === 11, {
+      message: "O telefone deve conter exatamente 11 dígitos numéricos",
+    }),
   cardData: z.object({
     creditCardNumber: z
       .string()
@@ -62,6 +66,8 @@ export const formSchema = z.object({
 });
 
 export default function Checkout() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -95,6 +101,8 @@ export default function Checkout() {
         installments: values.cardData.installments,
       },
     });
+
+    router.push("/success");
   };
 
   return (
