@@ -73,4 +73,4 @@ src/
 
 ## 👥 Autor
 
-Seu Nome - [GitHub](https://github.com/petrevisan)
+Pedro Martins Trevisan - [GitHub](https://github.com/petrevisan)
