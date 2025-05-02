@@ -22,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable}  min-h-screen min-w-screen bg-white `}
-      >
+      <body className={`${inter.variable} min-h-screen min-w-screen bg-white `}>
         <div className="container mx-auto">{children}</div>
       </body>
     </html>
