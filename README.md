@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kiwify Challenge - Checkout
 
-## Getting Started
+## DISCLAIMER (Importante)
 
-First, run the development server:
+Embora a vaga tenha especificado a utilização de Vue/Nuxt e eu tenha experiência profissional com essas tecnologias, na data em que o Artur (CEO da Kiwify) divulgou a oportunidade, eu estava em viagem de trabalho. Por conta disso, não teria tempo suficiente para desenvolver com Vue/Nuxt, já que não trabalho com elas há algum tempo e precisaria de 1 ou 2 dias para me reambientar ao ecossitema Vue. Decidi, então, me candidatar utilizando Next.js mesmo.
+
+## 💻 Sobre o Projeto
+
+Este projeto é uma implementação de um checkout responsivo desenvolvido com Next.js, seguindo os padrões de design da Kiwify. O sistema inclui validação de formulários, máscaras de input e uma experiência de usuário fluida.
+
+## 🚀 Tecnologias Utilizadas
+
+- Next.js/React
+- TypeScript
+- Tailwind CSS
+- Zod
+- React Hook Form
+- Shadcn/ui
+
+## 📋 Funcionalidades
+
+- Formulário de checkout responsivo
+- Validação de campos em tempo real
+- Máscara para CPF/CNPJ
+- Máscara para número de cartão de crédito
+- Validação de email
+- Seleção de parcelas
+- Feedback visual de erros
+- Página de sucesso após pagamento
+
+## 🛠 Instalação
 
 ```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/kiwify-challenge.git
+
+# Entre na pasta do projeto
+cd kiwify-challenge
+
+# Instale as dependências
+npm install
+
+# Inicie o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Ambiente de Desenvolvimento
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O projeto estará disponível em [http://localhost:3000](http://localhost:3000)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Estrutura do Projeto
 
-## Learn More
+```
+src/
+├── app/
+│   ├── page.tsx
+│   └── success/
+│       └── page.tsx
+├── components/
+│   ├── ui/
+│   └── organisms/
+├── utils/
+└── types/
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🔍 Validações Implementadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- CPF/CNPJ válido
+- Email e confirmação de email
+- Número de cartão de crédito (4242 4242 4242 4242)
+- Código de segurança (CVV)
+- Campos obrigatórios
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 👥 Autor
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Seu Nome - [GitHub](https://github.com/petrevisan)
