@@ -1,6 +1,6 @@
 # Kiwify Challenge - Checkout
 
-## DISCLAIMER (Importante)
+## Disclaimer (Importante)
 
 Embora a vaga tenha especificado a utilização de Vue/Nuxt e eu tenha experiência profissional com essas tecnologias, na data em que o Artur (CEO da Kiwify) divulgou a oportunidade, eu estava em viagem de trabalho. Por conta disso, não teria tempo suficiente para desenvolver com Vue/Nuxt, já que não trabalho com elas há algum tempo e precisaria de 1 ou 2 dias para me reambientar ao ecossitema Vue. Decidi, então, me candidatar utilizando Next.js mesmo.
 
