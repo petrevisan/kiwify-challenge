@@ -26,6 +26,7 @@ import {
 import PaymentMethod from "@/components/organisms/PaymentMethod";
 import { monthValues, yearValues, installments } from "@/utils/CardValues";
 import { formatCreditCard } from "@/utils/CreditCardNumber";
+import CheckoutFooter from "@/components/organisms/CheckoutFooter";
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -346,6 +347,9 @@ export default function Checkout() {
           </Button>
         </form>
       </Form>
+      <div>
+        <CheckoutFooter />
+      </div>
     </div>
   );
 }
