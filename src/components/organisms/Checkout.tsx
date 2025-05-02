@@ -16,7 +16,20 @@ import { cpf, cnpj } from "cpf-cnpj-validator";
 import { formatDocumentNumber } from "@/utils/DocNumber";
 import { formatPhoneNumber } from "@/utils/Phone";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  // SelectGroup,
+  SelectItem,
+  // SelectLabel,
+  // SelectScrollDownButton,
+  // SelectScrollUpButton,
+  // SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import PaymentMethod from "@/components/organisms/PaymentMethod";
+import { monthValues, yearValues, installments } from "@/utils/CardValues";
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -34,6 +47,16 @@ export const formSchema = z.object({
   phone: z.string().regex(/^\d{11}$/, {
     message: "O telefone deve conter exatamente 11 dígitos numéricos",
   }),
+  creditCardNumber: z
+    .string()
+    .min(1, { message: "Número do cartão é obrigatório" }),
+  cardMonth: z.string().min(1, { message: "Mês é obrigatório" }),
+  cardYear: z.string().min(1, { message: "Ano é obrigatório" }),
+  cardSafeCode: z
+    .string()
+    .min(3, { message: "Código de segurança é obrigatório" })
+    .max(4, { message: "Código de segurança inválido" }),
+  installments: z.string().min(1, { message: "Parcelas obrigatórias" }),
 });
 
 export default function Checkout() {
@@ -145,13 +168,6 @@ export default function Checkout() {
             />
           </div>
 
-          <Button
-            type="submit"
-            className="py-6 bg-[#28b463] text-white font-bold"
-          >
-            Pagar agora
-          </Button>
-
           <Tabs defaultValue="card" className="w-full">
             <TabsList className="w-full grid grid-cols-3 h-12">
               <TabsTrigger value="card">
@@ -164,7 +180,129 @@ export default function Checkout() {
                 <PaymentMethod text="Pix" iconPath="/icons/pix.svg" />
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="card">Cartão</TabsContent>
+            <TabsContent
+              value="card"
+              className="bg-[#fafafa] px-5 py-3 rounded"
+            >
+              <div className="flex flex-col gap-5">
+                <FormField
+                  control={form.control}
+                  name="creditCardNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Número do cartão"
+                          {...field}
+                          className="py-5"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex flex-col md:flex-row gap-3 w-full">
+                  <FormField
+                    control={form.control}
+                    name="cardMonth"
+                    render={({ field }) => (
+                      <FormItem className="w-1/2 md:w-1/4">
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Mês" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {monthValues.map(({ month }) => (
+                              <SelectItem key={month} value={month}>
+                                {month}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="cardYear"
+                    render={({ field }) => (
+                      <FormItem className="w-1/2 md:w-1/4">
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Ano" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {yearValues.map(({ year }) => (
+                              <SelectItem key={year} value={year}>
+                                {year}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="cardSafeCode"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormControl>
+                          <Input
+                            placeholder="Código de segurança"
+                            className="py-5"
+                            maxLength={16}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="installments"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Ano" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {installments.map(({ value, text }) => (
+                            <SelectItem key={value} value={value}>
+                              {text}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </TabsContent>
             <TabsContent value="boleto">
               <div className="bg-[#ededed] p-8 rounded ">
                 <h3 className="text-[16px] font-bold">
@@ -195,6 +333,12 @@ export default function Checkout() {
               </div>
             </TabsContent>
           </Tabs>
+          <Button
+            type="submit"
+            className="py-6 bg-[#28b463] text-white font-bold"
+          >
+            Pagar agora
+          </Button>
         </form>
       </Form>
     </div>
