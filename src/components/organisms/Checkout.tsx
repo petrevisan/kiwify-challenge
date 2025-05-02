@@ -19,17 +19,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
-  // SelectGroup,
   SelectItem,
-  // SelectLabel,
-  // SelectScrollDownButton,
-  // SelectScrollUpButton,
-  // SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import PaymentMethod from "@/components/organisms/PaymentMethod";
 import { monthValues, yearValues, installments } from "@/utils/CardValues";
+import { formatCreditCard } from "@/utils/CreditCardNumber";
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -49,7 +45,10 @@ export const formSchema = z.object({
   }),
   creditCardNumber: z
     .string()
-    .min(1, { message: "Número do cartão é obrigatório" }),
+    .min(1, { message: "Número inválido" })
+    .regex(/^4242 4242 4242 4242$/, {
+      message: "Número do cartão inválido",
+    }),
   cardMonth: z.string().min(1, { message: "Mês é obrigatório" }),
   cardYear: z.string().min(1, { message: "Ano é obrigatório" }),
   cardSafeCode: z
@@ -193,7 +192,13 @@ export default function Checkout() {
                       <FormControl>
                         <Input
                           placeholder="Número do cartão"
+                          maxLength={19}
                           {...field}
+                          value={field.value}
+                          onChange={(e) => {
+                            const formatted = formatCreditCard(e.target.value);
+                            field.onChange(formatted);
+                          }}
                           className="py-5"
                         />
                       </FormControl>
@@ -266,7 +271,7 @@ export default function Checkout() {
                           <Input
                             placeholder="Código de segurança"
                             className="py-5"
-                            maxLength={16}
+                            maxLength={4}
                             {...field}
                           />
                         </FormControl>
@@ -286,7 +291,7 @@ export default function Checkout() {
                       >
                         <FormControl>
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Ano" />
+                            <SelectValue placeholder="Parcelas" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
