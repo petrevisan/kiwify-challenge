@@ -1,9 +1,5 @@
 # Kiwify Challenge - Checkout
 
-## Disclaimer
-
-Embora a vaga tenha especificado a utilização de Vue/Nuxt, na data em que o Artur (CEO da Kiwify) divulgou a oportunidade e que eu fiz a aplicação, eu estava em viagem a trabalho. Por conta disso, não teria tempo suficiente para desenvolver com Vue/Nuxt, já que não trabalho com elas há algum tempo e precisaria de 1 ou 2 dias para me reambientar ao ecossitema Vue. Decidi, então, me candidatar utilizando Next.js mesmo.
-
 ## 💻 Sobre o Projeto
 
 Este projeto é uma implementação de um checkout responsivo desenvolvido com Next.js, seguindo os padrões de design da Kiwify. O sistema inclui validação de formulários, máscaras de input e uma experiência de usuário fluida.
